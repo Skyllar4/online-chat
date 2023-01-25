@@ -1,23 +1,11 @@
-import express from 'express';
+import { validationResult } from 'express-validator';
+import UserModel from '../models/User.js'
+import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
-import { validationResult } from 'express-validator';
-import {registerValidator} from './validations/auth.js';
-import UserModel from './models/User.js'
-import checkauth from './utils/checkauth.js';
 
-mongoose
-.connect('mongodb+srv://Skyllar:Pj12qoharperdce@cluster0.87ueqch.mongodb.net/messenger?retryWrites=true&w=majority')
-.then(() => {
-    console.log('DB OK');
-}).catch((err) => console.log("DB error " + err));
-
-const app = express();
-
-app.use(express.json());
-
-app.post('/register', registerValidator, async (req, res) => {
+export const register = async (req, res) => {
+    
     try {
         const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,7 +36,7 @@ app.post('/register', registerValidator, async (req, res) => {
          expiresIn: '30d',
          },
     ); 
-
+         
     res.json({...userData, token});
 
     } catch (err) {
@@ -57,12 +45,13 @@ app.post('/register', registerValidator, async (req, res) => {
             message: "Не удалось зарегистрироваться",
         });
     }
-});
+};
 
-app.post('/login', async (req, res) => {
+export const login = async (req, res) => {
+
     try {
 
-        const user = await UserModel.findOne({ email: req.body.email });
+        const user = await UserModel.findOne({ userName: req.body.userName });
 
         const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
 
@@ -76,15 +65,17 @@ app.post('/login', async (req, res) => {
             {
             _id: user._id,
             },
-             'secretHash',
-             {
-             expiresIn: '30d',
-             },
+            'secretHash',
+            {
+            expiresIn: '30d',
+            },
         ); 
 
         const { passwordHash, ...userData } = user._doc;
-
-        res.json({...userData, token});
+        res.cookie('loginToken', `${token}`);
+        res.status(200).json({
+            message: true
+        });
         
     } catch (err) {
         console.log(err);
@@ -92,22 +83,27 @@ app.post('/login', async (req, res) => {
             message: "Не удалось авторизоваться"
         });
     }
-});
+};
 
-app.get('/user/info', checkauth, (req, res) => {
+export const auth = async (req, res) => {
     try {
-        req.json({
-            success: true
-        });
+
+        const user = await User.findById(req.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'Пользователь не найден'
+            });
+        }
+
+        const { passwordHash, ...userData } = user._doc;
+
+        res.json(user);
+
     } catch (err) {
-        console.log(err)
+        res.status(500).json({
+            message: 'Нет доступа'
+        });
     }
-});
 
-
-app.listen(200, (err) => {
-    if (err) {
-        return console.log(err);
-    } 
-    console.log('OK');
-});
+};

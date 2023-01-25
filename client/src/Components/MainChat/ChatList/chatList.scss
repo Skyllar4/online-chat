@@ -1,0 +1,9 @@
+@import '../../../Styles/vars.scss';
+
+.chatListContainer {
+    height: 730px; // Временно
+    padding: 5px 10px;
+    max-width: 470px; // !!!!!!!!!!!!!
+    width: 470px;
+    background-color: $backgroundContainers;
+}

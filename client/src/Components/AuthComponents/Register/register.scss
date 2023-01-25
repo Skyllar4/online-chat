@@ -1,0 +1,14 @@
+@import '../../../Styles/vars.scss';
+
+.reg-form-elements {
+    @include inputElements;
+    @include authFormElements;
+}
+
+.authForm {
+    text-align: center;
+}
+
+.regFormBtn {
+    @include button;
+}

@@ -1,0 +1,35 @@
+@import '../../../Styles/vars.scss';
+
+.authContainer {
+    @include containersPadding;
+    background-color: $backgroundContainers;
+    max-width: 350px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -118px;
+    margin-left: -160px;
+}
+
+.switch-reg-login-button {
+    padding: 15px 10px;
+    margin-top: -9px;
+    cursor: pointer;
+    color: white;
+    background-color: darken(#808080, 30%);
+    border: none;
+}
+
+.switch-reg-login-button:active {
+    border-bottom: 1px solid white;
+} 
+
+.switch-reg-login-button:not(:last-child) {
+    margin-right: 1px;
+}
+
+.authContainer__button-grp {
+    border-bottom: 3px solid black;
+    margin: 0px -15px 10px;
+}

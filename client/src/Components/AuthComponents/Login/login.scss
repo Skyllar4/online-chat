@@ -1,0 +1,16 @@
+@import '../../../Styles/vars.scss';
+
+.login-form-element {
+    @include inputElements;
+    @include authFormElements;
+}
+
+.login-form {
+    text-align: center;
+}
+
+.login-btn {
+    display: block;
+    margin: 0 auto;
+    @include button;
+}

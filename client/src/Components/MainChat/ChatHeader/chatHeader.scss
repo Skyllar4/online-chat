@@ -1,0 +1,19 @@
+@import '../../../Styles/vars.scss';
+
+.chatHeader {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background-color: $backgroundContainers;
+
+    &__searchChats-input {
+        @include inputElements;
+        width: 440px; // Фиксированный размер
+    }
+
+    &__userName-text {
+        color: white;
+        margin-left: 100px;
+    }
+
+}

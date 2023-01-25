@@ -1,0 +1,32 @@
+$colorBackground: darken(#4B0082, 15%);
+$backgroundContainers: darken(#4B0082, 5%);
+$buttonColor: darken(#BA55D3, 10%);
+$textColor: white;
+// darken()
+@mixin containersPadding {
+    padding: 10px 15px;
+}
+
+@mixin inputElements {
+    background-color: #4B0082;
+    color: #696969;
+    padding: 10px 40px 10px 14px;
+    border: none;
+    outline: 0;
+}
+
+@mixin authFormElements {
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+@mixin button {
+    background-color: $buttonColor;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px 30px;
+    cursor: pointer;
+}
